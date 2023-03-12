@@ -1,7 +1,7 @@
-import { useAuth } from 'contexts/AuthContext';
+import { useAuthContext } from 'hooks/useAuthContext';
 import { Navigate } from 'react-router-dom';
 
 export default function AuthRoute({ children }) {
-	const { currentUser } = useAuth();
+	const { currentUser } = useAuthContext();
 	return currentUser ? <div>{children}</div> : <Navigate to="/login" />;
 }

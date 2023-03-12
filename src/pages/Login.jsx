@@ -1,10 +1,8 @@
-import { useAuth } from 'contexts/AuthContext';
+import { useLogin } from 'hooks/useLogin';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-	const navigate = useNavigate();
-	const { login } = useAuth();
+	const { login, isLoading, error } = useLogin();
 
 	const [email, setEmail] = useState('kzamanbn@gmail.com');
 	const [password, setPassword] = useState('password');
@@ -13,11 +11,7 @@ export default function Login() {
 		console.log('Form submitted');
 
 		try {
-			const { token = null } = await login(email, password);
-			if (!token) throw new Error('Invalid credentials');
-			localStorage.setItem('token', token);
-
-			navigate('/');
+			await login(email, password);
 		} catch (error) {
 			console.log(error);
 		}
@@ -31,6 +25,7 @@ export default function Login() {
 						<img src="/images/login.svg" alt="Login" />
 					</div>
 					<form className="login form" onSubmit={formSubmitHandler}>
+						{error && <div>{error}</div>}
 						<div className="textInput">
 							<input
 								type="text"
@@ -52,7 +47,7 @@ export default function Login() {
 						</div>
 
 						<button className="button">
-							<span>Login</span>
+							<span>{isLoading ? 'Loading...' : 'Login'}</span>
 						</button>
 
 						<div className="info">

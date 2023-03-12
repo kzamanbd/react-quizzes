@@ -1,15 +1,14 @@
-import { useAuth } from 'contexts/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext } from 'hooks/useAuthContext';
+import { useLogout } from 'hooks/useLogout';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
-	const { currentUser } = useAuth();
-	const navigate = useNavigate();
+	const { currentUser } = useAuthContext();
+	const { logout } = useLogout();
+	console.log(currentUser);
 
-	const logout = () => {
-		// remove token from local storage
-		localStorage.removeItem('token');
-		console.log('Logout');
-		navigate('/login');
+	const logoutHandler = () => {
+		logout();
 	};
 	return (
 		<nav className="nav">
@@ -26,7 +25,7 @@ export default function Navbar() {
 					account_circle
 				</span>
 				{currentUser ? (
-					<span role="button" className="material-icons-outlined" title="Logout" onClick={logout}>
+					<span role="button" className="material-icons-outlined" title="Logout" onClick={logoutHandler}>
 						logout
 					</span>
 				) : (

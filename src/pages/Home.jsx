@@ -1,4 +1,3 @@
-import React from 'react';
 import VideoList from 'components/videos/VideoList';
 
 export default function Home() {

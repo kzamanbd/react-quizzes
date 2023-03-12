@@ -1,5 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from 'react';
-import axios from 'utils/axios';
+import { createContext, useEffect, useReducer } from 'react';
 
 export const AuthContext = createContext();
 
@@ -19,34 +18,20 @@ export const AuthProvider = ({ children }) => {
 		currentUser: null
 	});
 
-	const [loading, setLoading] = useState(false);
-
 	console.log('AuthContext state:', state);
 
 	useEffect(() => {
-		const fetchUserData = async () => {
-			try {
-				const token = localStorage.getItem('token');
+		const currentUser = JSON.parse(localStorage.getItem('user'));
 
-				if (token) {
-					setLoading(true);
-					const { data } = await axios.get('/api/current-user');
-					dispatch({ type: 'SET_CURRENT_USER', payload: data.user });
-					console.log('response', data);
-					setLoading(false);
-				}
-			} catch (error) {
-				setLoading(false);
-				console.log(error);
-			}
-		};
-		fetchUserData();
+		if (currentUser) {
+			dispatch({ type: 'SET_CURRENT_USER', payload: currentUser });
+		}
 	}, []);
 
 	const value = {
-		dispatch,
-		...state
+		...state,
+		dispatch
 	};
 
-	return <AuthContext.Provider value={value}>{loading ? <div>Loading...</div> : children}</AuthContext.Provider>;
+	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

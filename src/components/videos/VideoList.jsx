@@ -1,7 +1,6 @@
+import { fetchVideos } from 'features/videos/videosSlice';
 import { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../features/videos/videosSlice';
 import VideoCard from './VideoCard';
 
 export default function VideoList() {
@@ -25,14 +24,21 @@ export default function VideoList() {
 	// show the videos if the videos are loaded
 	if (videos.length > 0 && !isLoading) {
 		// map the videos to VideoCard component
-		content = videos.map((video) => <VideoCard key={video._id} video={video} />);
+		content = (
+			<div className="videos">
+				{videos.map((video) => (
+					<VideoCard key={video._id} video={video} />
+				))}
+			</div>
+		);
 	}
 	// show no videos found if the videos are loaded but there are no videos
 	if (videos.length === 0 && !isLoading && !isError) content = <div>No videos found!</div>;
 
 	return (
-		<InfiniteScroll next={fetchData} dataLength={videos.length} hasMore={hasMore}>
-			<div className="videos">{content}</div>
-		</InfiniteScroll>
+		<div>
+			{content}
+			{hasMore && <button onClick={fetchData}>Load More</button>}
+		</div>
 	);
 }

@@ -26,15 +26,14 @@ const videosSlice = createSlice({
 			})
 			.addCase(fetchVideos.fulfilled, (state, action) => {
 				state.isLoading = false;
-				const { videos } = action.payload;
-				state.videos = [...videos, ...state.videos];
-				state.hasMore = true;
+				const { videos, hasMore } = action.payload;
+				state.videos = [...state.videos, ...videos];
+				state.hasMore = hasMore;
 			})
 			.addCase(fetchVideos.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.error?.message;
 				state.isError = true;
-				state.videos = [];
 				state.hasMore = false;
 			});
 	}

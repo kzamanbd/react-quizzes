@@ -5,7 +5,8 @@ const initialState = {
 	isLoading: false,
 	videos: [],
 	error: null,
-	isError: false
+	isError: false,
+	hasMore: true
 };
 
 // async thunk
@@ -25,13 +26,16 @@ const videosSlice = createSlice({
 			})
 			.addCase(fetchVideos.fulfilled, (state, action) => {
 				state.isLoading = false;
-				state.videos = action.payload.videos;
+				const { videos } = action.payload;
+				state.videos = [...videos, ...state.videos];
+				state.hasMore = true;
 			})
 			.addCase(fetchVideos.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.error?.message;
 				state.isError = true;
 				state.videos = [];
+				state.hasMore = false;
 			});
 	}
 });

@@ -1,15 +1,20 @@
-import { fetchVideos } from 'features/videos/videosSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchVideos } from '../../features/videos/videosSlice';
 import VideoCard from './VideoCard';
 
 export default function VideoList() {
 	const dispatch = useDispatch();
-	const { videos, isLoading, error, isError } = useSelector((state) => state.videos);
+	const { videos, isLoading, error, isError, hasMore } = useSelector((state) => state.videos);
+
+	const [page, setPage] = useState(1);
+
+	const fetchData = () => setPage((prevPage) => prevPage + 1);
 
 	useEffect(() => {
-		dispatch(fetchVideos({ page: 1 }));
-	}, [dispatch]);
+		dispatch(fetchVideos({ page }));
+	}, [dispatch, page]);
 
 	// decide the content that will be rendered
 	let content = null;
@@ -25,5 +30,9 @@ export default function VideoList() {
 	// show no videos found if the videos are loaded but there are no videos
 	if (videos.length === 0 && !isLoading && !isError) content = <div>No videos found!</div>;
 
-	return <div className="videos">{content}</div>;
+	return (
+		<InfiniteScroll next={fetchData} dataLength={videos.length} hasMore={hasMore}>
+			<div className="videos">{content}</div>
+		</InfiniteScroll>
+	);
 }

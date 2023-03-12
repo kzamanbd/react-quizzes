@@ -1,5 +1,6 @@
 import { useLogin } from 'hooks/useLogin';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
 	const { login, isLoading, error } = useLogin();
@@ -28,10 +29,11 @@ export default function Login() {
 						{error && <div>{error}</div>}
 						<div className="textInput">
 							<input
-								type="text"
+								type="email"
 								placeholder="Enter email"
 								onChange={(e) => setEmail(e.target.value)}
 								value={email}
+								required
 							/>
 							<span className="material-icons-outlined"> alternate_email </span>
 						</div>
@@ -42,6 +44,7 @@ export default function Login() {
 								placeholder="Enter password"
 								onChange={(e) => setPassword(e.target.value)}
 								value={password}
+								required
 							/>
 							<span className="material-icons-outlined"> lock </span>
 						</div>
@@ -51,7 +54,7 @@ export default function Login() {
 						</button>
 
 						<div className="info">
-							Don't have an account? <a href="/register">Register</a> instead.
+							Don't have an account? <Link to="/register">Register</Link> instead.
 						</div>
 					</form>
 				</div>

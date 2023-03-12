@@ -1,10 +1,11 @@
+import AuthRoute from 'components/AuthRoute';
+import GuestRoute from 'components/GuestRoute';
 import Navbar from 'components/Navbar';
 import { AuthProvider } from 'contexts/AuthContext';
+import Login from 'pages/Auth/Login';
+import Register from 'pages/Auth/Register';
 import Home from 'pages/Home';
-import Login from 'pages/Login';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import AuthRoute from 'utils/AuthRoute';
-import GuestRoute from 'utils/GuestRoute';
 
 function App() {
 	return (
@@ -26,6 +27,14 @@ function App() {
 						element={
 							<GuestRoute>
 								<Login />
+							</GuestRoute>
+						}
+					/>
+					<Route
+						path="/register"
+						element={
+							<GuestRoute>
+								<Register />
 							</GuestRoute>
 						}
 					/>

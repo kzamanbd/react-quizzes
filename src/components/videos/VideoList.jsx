@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import { fetchVideos } from 'features/videos/videosSlice';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../features/videos/videosSlice';
 import VideoCard from './VideoCard';
 
 export default function VideoList() {
@@ -8,7 +8,7 @@ export default function VideoList() {
 	const { videos, isLoading, error, isError } = useSelector((state) => state.videos);
 
 	useEffect(() => {
-		dispatch(fetchVideos());
+		dispatch(fetchVideos({ page: 1 }));
 	}, [dispatch]);
 
 	// decide the content that will be rendered

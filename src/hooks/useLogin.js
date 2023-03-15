@@ -12,9 +12,8 @@ export const useLogin = () => {
 		setError(null);
 
 		try {
-			const { data } = await axios.post('/api/auth/login', { username, password });
+			const { data } = await axios.post('/api/auth/login', { username, password }, { withCredentials: true });
 			// save the token to local storage
-			localStorage.setItem('token', data.token);
 			localStorage.setItem('user', JSON.stringify(data.user));
 			// update the auth context
 			dispatch({ type: 'SET_CURRENT_USER', payload: data.user });

@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { apiBaseOptions } from 'utils/config';
 
 export const videosApiSlice = createApi({
 	reducerPath: 'videosApi',
-	baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000', credentials: 'include' }),
+	baseQuery: fetchBaseQuery(apiBaseOptions),
 	endpoints: (builder) => ({
 		getVideos: builder.query({
 			query: ({ page }) => `/api/videos?page=${page}`

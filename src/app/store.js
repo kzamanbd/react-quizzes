@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import videosReducer from 'features/videos/videosSlice';
+import { videosApiSlice } from 'features/videos/videosApiSlice';
 
 export const store = configureStore({
 	reducer: {
-		videos: videosReducer
-	}
+		[videosApiSlice.reducerPath]: videosApiSlice.reducer
+	},
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(videosApiSlice.middleware)
 });

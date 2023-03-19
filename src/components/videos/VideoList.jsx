@@ -4,7 +4,7 @@ import VideoCard from './VideoCard';
 
 export default function VideoList() {
 	const [page, setPage] = useState(1);
-	const { data, isLoading, isError } = useGetVideosQuery({ page });
+	const { data, isLoading, isError } = useGetVideosQuery(page, { keepPreviousData: true });
 
 	// decide the content that will be rendered
 	let content = null;

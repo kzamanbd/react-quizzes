@@ -6,7 +6,7 @@ export const useLogout = () => {
 
 	const logout = async () => {
 		// remove token from storage
-		await axios.get('/api/auth/logout', { withCredentials: true });
+		await axios.get('/api/logout');
 		// remove user from storage
 		localStorage.removeItem('user');
 		// dispatch logout action

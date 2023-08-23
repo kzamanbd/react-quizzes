@@ -1,18 +1,19 @@
-import { useLogin } from 'hooks/useLogin';
+import { useLoginMutation } from '@/features/auth/authApi';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Login() {
-	const { login, isLoading, error } = useLogin();
+	const [login, { isLoading }] = useLoginMutation();
 
 	const [email, setEmail] = useState('kzamanbn@gmail.com');
 	const [password, setPassword] = useState('password');
-	const formSubmitHandler = async (e) => {
+
+	const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log('Form submitted');
 
 		try {
-			await login(email, password);
+			await login({ username: email, password });
 		} catch (error) {
 			console.log(error);
 		}
@@ -26,7 +27,6 @@ export default function Login() {
 						<img src="/images/login.svg" alt="Login" />
 					</div>
 					<form className="login form" onSubmit={formSubmitHandler}>
-						{error && <div>{error}</div>}
 						<div className="textInput">
 							<input
 								type="email"

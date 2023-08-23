@@ -1,4 +1,4 @@
-import VideoList from 'components/videos/VideoList';
+import VideoList from '@/components/videos/VideoList';
 
 export default function Home() {
 	return (

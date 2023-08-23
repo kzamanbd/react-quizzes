@@ -1,7 +1,14 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function VideoCard({ video }) {
+type VideoCardProps = {
+	video: {
+		title: string;
+		youtubeID: string;
+		noq: number;
+	};
+};
+
+export default function VideoCard({ video }: VideoCardProps) {
 	const { title, youtubeID, noq } = video;
 	return (
 		<Link to="quiz.html">

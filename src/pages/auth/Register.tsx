@@ -1,17 +1,17 @@
+import { useRegisterMutation } from '@/features/auth/authApi';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'utils/axios';
 
 export default function Register() {
 	const navigate = useNavigate();
+	const [register, { isLoading }] = useRegisterMutation();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-	const [agree, setAgree] = useState(false);
 	const [error, setError] = useState('');
 
-	const formSubmitHandler = async (e) => {
+	const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log('Form submitted');
 		if (password !== confirmPassword) {
@@ -19,10 +19,11 @@ export default function Register() {
 			return;
 		}
 		try {
-			const { data } = await axios.post('/api/auth/register', { name, email, password });
+			const { data } = await register({ name, email, password, withLogin: true }).unwrap();
 			navigate('/login');
 			console.log(data);
 		} catch (error) {
+			setError('Something went wrong');
 			console.log(error);
 		}
 	};
@@ -80,11 +81,11 @@ export default function Register() {
 						</div>
 
 						<label>
-							<input type="checkbox" onChange={(e) => setAgree(e.target.value)} value={agree} required />
+							<input type="checkbox" required />
 							<span>I agree to the Terms & Conditions</span>
 						</label>
 
-						<button type="submit" className="button">
+						<button disabled={isLoading} type="submit" className="button">
 							<span>Join</span>
 						</button>
 

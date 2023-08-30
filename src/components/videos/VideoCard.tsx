@@ -1,17 +1,14 @@
+import { Video } from '@/types';
 import { Link } from 'react-router-dom';
 
-type VideoCardProps = {
-	video: {
-		title: string;
-		youtubeID: string;
-		noq: number;
-	};
+type VideoProps = {
+	video: Video;
 };
 
-export default function VideoCard({ video }: VideoCardProps) {
+export default function VideoCard({ video }: VideoProps) {
 	const { title, youtubeID, noq } = video;
 	return (
-		<Link to="quiz.html">
+		<Link to={`/quiz/${youtubeID}`}>
 			<div className="video">
 				<img src={`https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg`} alt="" />
 				<p>{title}</p>

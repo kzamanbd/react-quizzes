@@ -1,8 +1,12 @@
 import { useGetVideosQuery } from '@/features/videos/videosApiSlice';
+import { Video } from '@/types';
 import VideoCard from './VideoCard';
 
 export default function VideoList() {
-	const { data, isLoading, isError } = useGetVideosQuery(1);
+	const { data, isLoading, isError } = useGetVideosQuery({
+		page: 1,
+		limit: 8
+	});
 
 	// decide the content that will be rendered
 	let content = null;
@@ -15,7 +19,7 @@ export default function VideoList() {
 		// map the videos to VideoCard component
 		content = (
 			<div className="videos">
-				{data.videos.map((video: any) => (
+				{data.videos.map((video: Video) => (
 					<VideoCard key={video._id} video={video} />
 				))}
 			</div>

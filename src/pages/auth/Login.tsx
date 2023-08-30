@@ -1,9 +1,10 @@
 import { useLoginMutation } from '@/features/auth/authApi';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
 	const [login, { isLoading }] = useLoginMutation();
+	const navigate = useNavigate();
 
 	const [email, setEmail] = useState('kzamanbn@gmail.com');
 	const [password, setPassword] = useState('password');
@@ -13,7 +14,8 @@ export default function Login() {
 		console.log('Form submitted');
 
 		try {
-			await login({ username: email, password });
+			await login({ username: email, password }).unwrap();
+			navigate('/');
 		} catch (error) {
 			console.log(error);
 		}

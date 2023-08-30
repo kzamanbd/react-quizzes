@@ -1,10 +1,11 @@
-import PublicRoute from '@/components/PublicRoute';
-import Login from '@/pages/auth/Login';
-import Register from '@/pages/auth/Register';
-import Home from '@/pages/Home';
-
 import Navbar from '@/components/Navbar';
 import PrivateRoute from '@/components/PrivateRoute';
+import PublicRoute from '@/components/PublicRoute';
+import Home from '@/pages/Home';
+import NotFound from '@/pages/NotFound';
+import Login from '@/pages/auth/Login';
+import Register from '@/pages/auth/Register';
+
 import { useGetCurrentUserQuery } from '@/features/auth/authApi';
 import { updateCurrentUser } from '@/features/auth/authSlice';
 import { useEffect } from 'react';
@@ -25,7 +26,17 @@ function App() {
 	}, [error, dispatch]);
 
 	if (isLoading) {
-		return <div className="flex justify-center items-center h-screen">Loading...</div>;
+		return (
+			<div
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: '100vh'
+				}}>
+				Loading...
+			</div>
+		);
 	}
 	return (
 		<Router>
@@ -55,6 +66,7 @@ function App() {
 						</PublicRoute>
 					}
 				/>
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Router>
 	);

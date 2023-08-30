@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 export default function Navbar() {
 	const { currentUser } = useSelector((state: RootState) => state.auth);
-	console.log(currentUser);
 
 	const logoutHandler = () => {
 		console.log('Logout');
